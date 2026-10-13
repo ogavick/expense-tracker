@@ -59,12 +59,33 @@ function App() {
   }
 }
 
-  const addItem = () => {
-    if (!title ||!amount) return
-    setExpenses([...expenses, { id: Date.now(), title, amount: Number(amount), type }])
-    setTitle("")
-    setAmount("")
+  
+const addItem = () => {
+  const numericAmount = Number(amount)
+
+  if (!title.trim()) {
+    alert("Please enter a title.")
+    return
   }
+
+  if (!amount || !Number.isFinite(numericAmount) || numericAmount <= 0) {
+    alert("Amount must be greater than ₦0.")
+    return
+  }
+
+  setExpenses([
+    ...expenses,
+    {
+      id: Date.now(),
+      title: title.trim(),
+      amount: numericAmount,
+      type
+    }
+  ])
+
+  setTitle("")
+  setAmount("")
+}
 
   const deleteItem = (id) => {
     setExpenses(expenses.filter((e) => e.id!== id))
