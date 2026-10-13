@@ -73,8 +73,17 @@ const addItem = () => {
     return
   }
 
-  setExpenses([
-    ...expenses,
+  // Prevent expenses from exceeding available balance
+  if (type === "expense" && numericAmount > balance) {
+    alert(
+      `Insufficient balance!\n\nYour available balance is ₦${balance.toLocaleString()}.\nYou cannot add an expense of ₦${numericAmount.toLocaleString()}.`
+    )
+    return
+  }
+
+  // Add the transaction if all conditions pass
+  setExpenses((prevExpenses) => [
+    ...prevExpenses,
     {
       id: Date.now(),
       title: title.trim(),
